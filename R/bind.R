@@ -22,3 +22,13 @@ bind_rows.df_next_method = function(..., .id = NULL) {
   out <- unclass(out)
   df_next_method(!!!out)
 }
+
+#' @export
+df_no_id <- function(...) {
+  vctrs::new_data_frame(x = vctrs::df_list(...), class = "df_no_id")
+}
+
+#' @export
+bind_rows.df_no_id = function(...) {
+  rlang::list2(...)
+}
