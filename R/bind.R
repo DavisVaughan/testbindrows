@@ -5,7 +5,7 @@ df_special <- function(...) {
 
 #' @export
 bind_rows.df_special = function(..., .id = NULL) {
-  dots <- rlang::list2(...)
+  dots <- dplyr:::bind_rows_dots(...)
   out <- vctrs::vec_rbind(!!!dots)
   out <- unclass(out)
   df_special(!!!out)
@@ -30,5 +30,15 @@ df_no_id <- function(...) {
 
 #' @export
 bind_rows.df_no_id = function(...) {
-  rlang::list2(...)
+  dplyr:::bind_rows_dots(...)
+}
+
+#' @export
+df_extra <- function(...) {
+  vctrs::new_data_frame(x = vctrs::df_list(...), class = "df_extra")
+}
+
+#' @export
+bind_rows.df_extra = function(..., .copy = FALSE) {
+  list(dots = dplyr:::bind_rows_dots(...), copy = .copy)
 }
